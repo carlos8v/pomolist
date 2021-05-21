@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 
 const Context = createContext({});
 
@@ -7,8 +7,25 @@ const mockedGroups = [
   { id: 1, title: 'Grupo 2', category: 'Estudos' },
 ];
 
+const mockedFocusTime = 60 * 1;
+const mockedRestTime = 60 * 1;
+
 const Provider: React.FC = ({ children }) => {
   const [groups, setGroups] = useState<Group[]>(mockedGroups);
+  const [isTimerActive, setIsTimeActive] = useState(false);
+  const [focusTime, setFocusTime] = useState(mockedFocusTime);
+  const [restTime, setRestTime] = useState(mockedRestTime);
+
+  useEffect(() => {
+    if (isTimerActive && focusTime > 0) {
+      setTimeout(() => {
+        setFocusTime((prev) => prev - 1);
+      }, 1000);
+    } else if (isTimerActive && focusTime === 0) {
+      setFocusTime(mockedFocusTime);
+      setIsTimeActive(false);
+    }
+  }, [isTimerActive, focusTime]);
 
   function removeGroup(groupId: number) {
     setGroups((prevGroups) => prevGroups.filter(({ id }) => id !== groupId));
@@ -22,10 +39,15 @@ const Provider: React.FC = ({ children }) => {
     }]);
   }
 
+  function startCountdown() { setIsTimeActive(true) };
+
   const contextValue:ContextType = {
     groups,
     removeGroup,
     addGroup,
+    focusTime,
+    isTimerActive,
+    startCountdown,
   };
 
   return (

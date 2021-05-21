@@ -1,3 +1,5 @@
+declare module "*.png";
+
 type AddGroupProps = {
   title: string,
   category: string,
@@ -12,5 +14,8 @@ type Group = {
 type ContextType = {
   groups: Array<Group>,
   removeGroup: (groupId: number) => void,
-  addGroup: (group: Group) => void,
+  addGroup: (group: AddGroupProps) => void,
+  focusTime: number,
+  isTimerActive: boolean,
+  startCountdown: () => void,
 }

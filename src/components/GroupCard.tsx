@@ -67,7 +67,8 @@ const getStyles = (isActive: boolean) => StyleSheet.create({
     flexDirection: 'row',
   },
   action: {
-    paddingVertical: 15,
+    paddingTop: 15,
+    paddingBottom: 5,
     paddingRight: 15,
     marginRight: 15,
   },

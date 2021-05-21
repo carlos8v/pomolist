@@ -8,7 +8,7 @@ import { Modal,
   TouchableWithoutFeedback
 } from 'react-native';
 
-import { AddButton } from './AddButton';
+import { Button } from './Button';
 
 import { Context } from '../context';
 
@@ -35,11 +35,10 @@ export function NewGroupModal() {
 
   return (
     <>
-      <AddButton
-        primary
+      <Button
+        size={48}
+        style={{ bottom: 15 }}
         onClick={() => setModalVisible((prev) => !prev)}
-        size={42}
-        position={{ bottom: 15 }}
       />
       <Modal
         animationType="slide"

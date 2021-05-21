@@ -2,6 +2,7 @@ import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import { Home } from './pages/Home';
+import { Watch } from './pages/Watch';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -18,7 +19,7 @@ export function Navigation() {
       }}
     >
       <Tab.Screen name="Lista" component={Home} />
-      <Tab.Screen name="Relógio" component={Home} />
+      <Tab.Screen name="Relógio" component={Watch} />
     </Tab.Navigator>
   );
 }

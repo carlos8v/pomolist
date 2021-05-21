@@ -12,7 +12,7 @@ export function Home() {
   const { groups } = useContext(Context) as ContextType;
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.wrapper}>
       <FlatList
         data={groups}
         renderItem={({ item }) => <GroupCard
@@ -29,7 +29,7 @@ export function Home() {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  wrapper: {
     flex: 1,
     alignItems: 'center',
     backgroundColor: colors.background,
