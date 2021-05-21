@@ -3,8 +3,8 @@ import { SafeAreaView, FlatList, StyleSheet } from 'react-native';
 
 import colors from '../styles/colors';
 
-import { AddButton } from '../components/AddButton';
 import { GroupCard } from '../components/GroupCard';
+import { NewGroupModal } from '../components/NewGroupModal';
 
 import { Context } from '../context';
 
@@ -16,17 +16,14 @@ export function Home() {
       <FlatList
         data={groups}
         renderItem={({ item }) => <GroupCard
+          id={item.id}
           title={item.title}
           category={item.category}
         />}
+        keyExtractor={item => item.id.toString()}
         style={styles.listContainer}
       />
-      <AddButton
-        primary
-        onClickFn={() => {}}
-        size={42}
-        position={{ bottom: 15 }}
-      />
+      <NewGroupModal />
     </SafeAreaView>
   );
 };

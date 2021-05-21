@@ -1,18 +1,21 @@
 import React, { useState, useContext } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet, Animated } from 'react-native';
 
 import colors from '../styles/colors';
 
 import { Context } from '../context';
 
-export function GroupCard({ title, category }: Group) {
-  const { removeGroup } = useContext(Context) as ContextType;
+export function GroupCard({ id, title, category }: Group) {
   const [isActive, setIsActive] = useState(false);
+
+  const { removeGroup } = useContext(Context) as ContextType;
+
+  const styles = getStyles(isActive);
 
   return (
     <TouchableOpacity
-      style={styles.wrapper}
       activeOpacity={0.7}
+      style={styles.wrapper}
       onPress={() => setIsActive((prev) => !prev)}
     >
       <Text style={styles.title}>{title}</Text>
@@ -21,7 +24,7 @@ export function GroupCard({ title, category }: Group) {
           <>
             <Text style={styles.category}>{category}</Text>
             <View style={styles.actionsContainer}>
-              <TouchableOpacity style={styles.action} onPress={() => removeGroup(title)}>
+              <TouchableOpacity style={styles.action} onPress={() => removeGroup(id)}>
                 <Text style={styles.actionText}>Deletar</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.action}>
@@ -38,16 +41,16 @@ export function GroupCard({ title, category }: Group) {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (isActive: boolean) => StyleSheet.create({
   wrapper: {
     width: '100%',
     paddingHorizontal: 15,
     paddingVertical: 10,
-    backgroundColor: 'transparent',
+    backgroundColor: isActive ? colors.header : 'rgba(0, 0, 0, 0)',
   },
   container: {
     paddingVertical: 5,
-    borderBottomWidth: 1,
+    borderBottomWidth: isActive ? 0 : 1,
     borderBottomColor: colors.inactive,
   },
   title: {

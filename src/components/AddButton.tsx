@@ -4,7 +4,7 @@ import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import colors from '../styles/colors';
 
 type AddButtonProps = {
-  onClickFn(): any,
+  onClick(): any,
   size?: number,
   primary?: boolean,
   position?: any,
@@ -17,7 +17,7 @@ type StylesProps = {
 }
 
 export function AddButton({
-  onClickFn,
+  onClick,
   size = 28,
   primary = false,
   position = {}
@@ -27,7 +27,7 @@ export function AddButton({
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      onPress={() => onClickFn()}
+      onPress={() => onClick()}
       style={styles.button}
     >
       <Text style={styles.buttonText}>+</Text>

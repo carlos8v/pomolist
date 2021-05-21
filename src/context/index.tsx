@@ -3,20 +3,29 @@ import React, { createContext, useState } from 'react';
 const Context = createContext({});
 
 const mockedGroups = [
-  { title: 'Grupo 1', category: 'Programação' },
-  { title: 'Grupo 2', category: 'Estudos' },
+  { id: 0, title: 'Grupo 1', category: 'Programação' },
+  { id: 1, title: 'Grupo 2', category: 'Estudos' },
 ];
 
 const Provider: React.FC = ({ children }) => {
   const [groups, setGroups] = useState<Group[]>(mockedGroups);
 
-  function removeGroup(groupTitle: string) {
-    setGroups((prevGroups) => prevGroups.filter(({ title }) => title !== groupTitle));
+  function removeGroup(groupId: number) {
+    setGroups((prevGroups) => prevGroups.filter(({ id }) => id !== groupId));
+  }
+
+  function addGroup({ title, category }: AddGroupProps) {
+    setGroups((prev) => [...prev, {
+      id: Math.random() * 1000,
+      title,
+      category,
+    }]);
   }
 
   const contextValue:ContextType = {
     groups,
-    removeGroup
+    removeGroup,
+    addGroup,
   };
 
   return (
