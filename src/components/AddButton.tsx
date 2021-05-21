@@ -3,17 +3,17 @@ import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 import colors from '../styles/colors';
 
-interface AddButtonProps {
-  onClickFn(): any;
-  size?: number;
-  primary?: boolean;
-  position?: any;
+type AddButtonProps = {
+  onClickFn(): any,
+  size?: number,
+  primary?: boolean,
+  position?: any,
 }
 
-interface StylesProps {
-  size: number;
-  primary: boolean;
-  position: any;
+type StylesProps = {
+  size: number,
+  primary: boolean,
+  position: any,
 }
 
 export function AddButton({

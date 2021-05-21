@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
 import colors from '../styles/colors';
 
-interface GroupCardProps {
-  title: string;
-  category: string;
-}
+import { Context } from '../context';
 
-export function GroupCard({ title, category }: GroupCardProps) {
+export function GroupCard({ title, category }: Group) {
+  const { removeGroup } = useContext(Context) as ContextType;
   const [isActive, setIsActive] = useState(false);
 
   return (
@@ -23,7 +21,7 @@ export function GroupCard({ title, category }: GroupCardProps) {
           <>
             <Text style={styles.category}>{category}</Text>
             <View style={styles.actionsContainer}>
-              <TouchableOpacity style={styles.action}>
+              <TouchableOpacity style={styles.action} onPress={() => removeGroup(title)}>
                 <Text style={styles.actionText}>Deletar</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.action}>

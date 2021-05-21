@@ -1,19 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { SafeAreaView, FlatList, StyleSheet } from 'react-native';
 
 import colors from '../styles/colors';
 
-import { AddButton } from '../Components/AddButton';
-import { GroupCard } from '../Components/GroupCard';
+import { AddButton } from '../components/AddButton';
+import { GroupCard } from '../components/GroupCard';
+
+import { Context } from '../context';
 
 export function Home() {
+  const { groups } = useContext(Context) as ContextType;
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={[
-          { title: 'Grupo 1', category: 'Programação' },
-          { title: 'Grupo 2', category: 'Estudos' },
-        ]}
+        data={groups}
         renderItem={({ item }) => <GroupCard
           title={item.title}
           category={item.category}
@@ -38,6 +39,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     width: '100%',
+    marginBottom: 15,
   },
   addButton: {
     position: 'absolute',
