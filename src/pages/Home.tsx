@@ -1,24 +1,29 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { SafeAreaView, FlatList, StyleSheet } from 'react-native';
 
 import colors from '../styles/colors';
 
-import { GroupCard } from '../components/GroupCard';
+import { GroupCard } from '../components/List/GroupCard';
 import { NewGroupModal } from '../components/NewGroupModal';
 
-import { Context } from '../context';
+import { GroupContext } from '../context/Group';
 
 export function Home() {
-  const { groups } = useContext(Context) as ContextType;
+  const [selectedGroup, setSelectedGroup] = useState(-1);
+  const { groups } = useContext(GroupContext) as GroupContextType;
+
+  function changeSelectedGroup(groupId: number) {
+    setSelectedGroup(groupId);
+  }
 
   return (
     <SafeAreaView style={styles.wrapper}>
       <FlatList
         data={groups}
-        renderItem={({ item }) => <GroupCard
-          id={item.id}
-          title={item.title}
-          category={item.category}
+        renderItem={({ item}) => <GroupCard
+          group={item}
+          selected={item.id === selectedGroup}
+          onSelect={changeSelectedGroup}
         />}
         keyExtractor={item => item.id.toString()}
         style={styles.listContainer}

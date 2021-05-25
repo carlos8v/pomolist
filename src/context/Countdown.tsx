@@ -1,17 +1,11 @@
 import React, { createContext, useEffect, useState } from 'react';
 
-const Context = createContext({});
-
-const mockedGroups = [
-  { id: 0, title: 'Grupo 1', category: 'Programação' },
-  { id: 1, title: 'Grupo 2', category: 'Estudos' },
-];
+const CountdownContext = createContext({});
 
 const mockedFocusTime = 60 * 1;
 const mockedRestTime = 60 * 1;
 
-const Provider: React.FC = ({ children }) => {
-  const [groups, setGroups] = useState<Group[]>(mockedGroups);
+const CountdownProvider: React.FC = ({ children }) => {
   const [isTimerActive, setIsTimeActive] = useState(false);
   const [focusTime, setFocusTime] = useState(mockedFocusTime);
   const [restTime, setRestTime] = useState(mockedRestTime);
@@ -27,34 +21,19 @@ const Provider: React.FC = ({ children }) => {
     }
   }, [isTimerActive, focusTime]);
 
-  function removeGroup(groupId: number) {
-    setGroups((prevGroups) => prevGroups.filter(({ id }) => id !== groupId));
-  }
-
-  function addGroup({ title, category }: AddGroupProps) {
-    setGroups((prev) => [...prev, {
-      id: Math.random() * 1000,
-      title,
-      category,
-    }]);
-  }
-
   function startCountdown() { setIsTimeActive(true) };
 
-  const contextValue:ContextType = {
-    groups,
-    removeGroup,
-    addGroup,
+  const contextValue:CountdownContextType = {
     focusTime,
     isTimerActive,
     startCountdown,
   };
 
   return (
-    <Context.Provider value={contextValue}>
+    <CountdownContext.Provider value={contextValue}>
       {children}
-    </Context.Provider>
+    </CountdownContext.Provider>
   );
 }
 
-export { Context, Provider };
+export { CountdownContext, CountdownProvider };

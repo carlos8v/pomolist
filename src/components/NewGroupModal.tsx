@@ -10,26 +10,31 @@ import { Modal,
 
 import { Button } from './Button';
 
-import { Context } from '../context';
+import { GroupContext } from '../context/Group';
 
 import colors from '../styles/colors';
 
 export function NewGroupModal() {
   const [modalVisible, setModalVisible] = useState(false);
+  const [error, setError] = useState(false);
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
 
-  const { addGroup } = useContext(Context) as ContextType;
+  const { addGroup } = useContext(GroupContext) as GroupContextType;
 
   useEffect(() => {
     setTitle('');
     setCategory('');
+    setError(false);
   }, [modalVisible]);
 
   function handleNewGroup() {
     if (title !== '' && category !== '') {
       addGroup({ title, category });
       setModalVisible((prev) => !prev);
+      setError(false);
+    } else {
+      setError(true);
     }
   }
 
@@ -48,6 +53,7 @@ export function NewGroupModal() {
         <View style={styles.modal}>
           <Text style={styles.title}>Novo Grupo:</Text>
           <View style={styles.container}>
+            {error && <Text style={styles.error}>Título e Categoria são obrigatórios</Text>}
             <TextInput
               value={title}
               onChangeText={(text) => setTitle(text)}
@@ -96,11 +102,16 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.text,
-    margin: 15,
+    marginHorizontal: 10,
+    marginTop: 10,
     fontSize: 20,
     fontWeight: 'bold',
   },
   container: { padding: 10 },
+  error: {
+    color: colors.inactive,
+    paddingBottom: 10
+  },
   textInput: {
     height: 42,
     color: colors.text,

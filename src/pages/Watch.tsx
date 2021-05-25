@@ -1,9 +1,20 @@
-import React, { useContext, useState } from 'react';
-import { SafeAreaView, View, Text, StyleSheet } from 'react-native';
+import React, { useContext } from 'react';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  StyleSheet
+} from 'react-native';
 
 import colors from '../styles/colors';
 
-import { Context } from '../context';
+import { CountdownContext } from '../context/Countdown';
+import { GroupContext } from '../context/Group';
+
+import { Finished } from '../components/Finished';
+import { FocusGroupCard } from '../components/Focus/FocusGroupCard';
 import { Button } from '../components/Button';
 
 export function Watch() {
@@ -11,7 +22,9 @@ export function Watch() {
     focusTime,
     isTimerActive,
     startCountdown
-  } = useContext(Context) as ContextType;
+  } = useContext(CountdownContext) as CountdownContextType;
+
+  const { groups } = useContext(GroupContext) as GroupContextType;
   
   const minutes = Math.floor(focusTime / 60);
   const seconds = focusTime % 60;
@@ -20,17 +33,39 @@ export function Watch() {
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      <View style={styles.timeContainer}>
-        <Text style={styles.title}>Hora de focar!</Text>
-        <Text style={styles.timeRemaing}>{formatTime(minutes)}:{formatTime(seconds)}</Text>
-        {!isTimerActive && (
-          <Button
-            size={48}
-            name="play"
-            onClick={() => startCountdown()}
+      { groups.length !== 0 
+      ? (<>
+          <View style={styles.timeContainer}>
+            <Text style={styles.title}>Hora de focar!</Text>
+            <Text style={styles.timeRemaing}>
+              {formatTime(minutes)}:{formatTime(seconds)}
+            </Text>
+            {!isTimerActive && (
+              <Button
+                size={48}
+                name="play"
+                onClick={() => startCountdown()}
+              />
+            )}
+          </View>
+          <FlatList
+            data={groups}
+            renderItem={({ item }) => <FocusGroupCard group={item} />}
+            keyExtractor={item => item.id.toString()}
+            style={styles.listContainer}
           />
-        )}
-      </View>
+        </>
+      ): (
+        <Finished />
+      )}
+      { isTimerActive && (
+        <TouchableOpacity
+          style={styles.actionContainer}
+          onPress={() => {}}
+        >
+          <Text style={styles.actionText}>Encerrar ciclo</Text>
+        </TouchableOpacity>
+      )}
     </SafeAreaView>
   );
 }
@@ -61,4 +96,16 @@ const styles = StyleSheet.create({
     color: colors.text,
     marginVertical: 15,
   },
+  listContainer: {
+    width: '100%',
+    marginBottom: 10,
+  },
+  actionContainer: {
+    marginVertical: 10,
+    padding: 5,
+  },
+  actionText: {
+    color: colors.inactive,
+    fontSize: 16,
+  }
 });
