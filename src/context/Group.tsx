@@ -1,5 +1,5 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import storage from './storage';
 
@@ -7,23 +7,15 @@ const GroupContext = createContext({});
 
 const getRandomId = () => Math.random() * Date.now();
 
-const mockedTasks = [
-  { id: getRandomId(), title: 'Aprender a usar o expo', finished: false },
-  { id: getRandomId(), title: 'Aprender conceitos de react', finished: false },
-];
-
-const mockedGroups = [
-  { id: getRandomId(), title: 'Grupo 1', category: 'Programação', tasks: mockedTasks },
-  { id: getRandomId(), title: 'Grupo 2', category: 'Estudos', tasks: mockedTasks },
-];
-
 const GroupProvider: React.FC = ({ children }) => {
-  const [groups, setGroups] = useState<Group[]>(mockedGroups);
+  const [groups, setGroups] = useState<Group[]>([]);
+  const [newGroupVisible, setNewGroupVisible] = useState(false);
+  const [newTaskVisible, setNewTaskVisible] = useState(false);
 
   useEffect(() => {
     (async () => {
       const asyncStorageGroups = await AsyncStorage.getItem(storage.groups) as string;
-      if (!asyncStorageGroups) setGroups(mockedGroups);
+      if (!asyncStorageGroups) setGroups([]);
       else setGroups(JSON.parse(asyncStorageGroups));
     })();
   }, []);
@@ -43,14 +35,43 @@ const GroupProvider: React.FC = ({ children }) => {
       id: getRandomId(),
       title,
       category,
-      tasks: mockedTasks,
+      tasks: [],
     }]);
   }
 
+  function addTask(groupId: number, title: string) {
+    setGroups((prev) => prev.map((group) => ({
+      ...group,
+      tasks: group.id === groupId
+        ? [...group.tasks, {
+            id: getRandomId(),
+            title,
+            finished: false,
+          }]
+        : group.tasks,
+    })));
+  }
+
+  function removeTask(taskId: number) {
+    setGroups((prev) => prev.map((group) => ({
+      ...group,
+      tasks: group.tasks.filter(({ id }) => id !== taskId)
+    })));
+  }
+
+  function toggleGroupVisible() { setNewGroupVisible(prev => !prev) }
+  function toggleTaskVisible() { setNewTaskVisible(prev => !prev) }
+
   const contextValue:GroupContextType = {
     groups,
-    removeGroup,
     addGroup,
+    removeGroup,
+    addTask,
+    removeTask,
+    newGroupVisible,
+    toggleGroupVisible,
+    newTaskVisible,
+    toggleTaskVisible,
   };
 
   return (

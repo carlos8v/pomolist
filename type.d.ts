@@ -20,12 +20,19 @@ type Group = {
 
 type GroupContextType = {
   groups: Array<Group>,
-  removeGroup: (groupId: number) => void,
   addGroup: (group: AddGroupProps) => void,
+  removeGroup: (groupId: number) => void,
+  addTask: (groupId: number, title: string) => void,
+  removeTask: (taskId: number) => void,
+  newGroupVisible: boolean,
+  toggleGroupVisible: () => void,
+  newTaskVisible: boolean,
+  toggleTaskVisible: () => void,
 }
 
 type CountdownContextType = {
   focusTime: number,
   isTimerActive: boolean,
   startCountdown: () => void,
+  restartCountdown: () => void,
 }

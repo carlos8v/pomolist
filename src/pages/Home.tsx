@@ -5,16 +5,15 @@ import colors from '../styles/colors';
 
 import { GroupCard } from '../components/List/GroupCard';
 import { NewGroupModal } from '../components/NewGroupModal';
+import { NewTaskModal } from '../components/NewTaskModal';
 
 import { GroupContext } from '../context/Group';
 
 export function Home() {
-  const [selectedGroup, setSelectedGroup] = useState(-1);
+  const [selectedGroup, setSelectedGroup] = useState(0);
   const { groups } = useContext(GroupContext) as GroupContextType;
 
-  function changeSelectedGroup(groupId: number) {
-    setSelectedGroup(groupId);
-  }
+  function changeSelectedGroup(groupId: number) { setSelectedGroup(groupId) }
 
   return (
     <SafeAreaView style={styles.wrapper}>
@@ -29,6 +28,7 @@ export function Home() {
         style={styles.listContainer}
       />
       <NewGroupModal />
+      <NewTaskModal groupId={selectedGroup} />
     </SafeAreaView>
   );
 };

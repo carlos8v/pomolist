@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, FlatList } from 'react-native';
 
 import colors from '../../styles/colors';
@@ -18,12 +18,12 @@ export function GroupCard({
   selected,
   onSelect
 }: GroupCardProps) {
-  const { removeGroup } = useContext(GroupContext) as GroupContextType;
+  const { removeGroup, toggleTaskVisible } = useContext(GroupContext) as GroupContextType;
 
   const styles = getStyles(selected);
 
   function handleSelected() {
-    if (selected) onSelect(-1);
+    if (selected) onSelect(0);
     else onSelect(id);
   }
 
@@ -52,7 +52,7 @@ export function GroupCard({
               <TouchableOpacity style={styles.action} onPress={() => removeGroup(id)}>
                 <Text style={styles.actionText}>Deletar</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.action}>
+              <TouchableOpacity style={styles.action} onPress={toggleTaskVisible}>
                 <Text style={styles.actionText}>Novo</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.action}>
@@ -105,9 +105,9 @@ const getStyles = (selected: boolean) => StyleSheet.create({
     flexDirection: 'row',
   },
   action: {
-    paddingTop: 15,
-    paddingBottom: 5,
-    paddingRight: 15,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    marginTop: 5,
     marginRight: 15,
   },
   saveAction: {

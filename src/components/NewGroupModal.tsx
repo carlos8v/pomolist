@@ -15,45 +15,50 @@ import { GroupContext } from '../context/Group';
 import colors from '../styles/colors';
 
 export function NewGroupModal() {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [error, setError] = useState(false);
+  const [disabled, setDisabled] = useState(true);
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
 
-  const { addGroup } = useContext(GroupContext) as GroupContextType;
+  const {
+    addGroup,
+    newGroupVisible,
+    toggleGroupVisible
+  } = useContext(GroupContext) as GroupContextType;
+
+  useEffect(() => {
+    if (title !== '' && category !== '') setDisabled(false);
+    else setDisabled(true);
+  }, [title, category]);
 
   useEffect(() => {
     setTitle('');
     setCategory('');
-    setError(false);
-  }, [modalVisible]);
+  }, [newGroupVisible]);
 
   function handleNewGroup() {
     if (title !== '' && category !== '') {
       addGroup({ title, category });
-      setModalVisible((prev) => !prev);
-      setError(false);
-    } else {
-      setError(true);
+      toggleGroupVisible();
     }
   }
+
+  const styles = getStyles(disabled);
 
   return (
     <>
       <Button
         size={48}
         style={{ bottom: 15 }}
-        onClick={() => setModalVisible((prev) => !prev)}
+        onClick={toggleGroupVisible}
       />
       <Modal
         animationType="slide"
         transparent={true}
-        visible={modalVisible}
+        visible={newGroupVisible}
       >
         <View style={styles.modal}>
           <Text style={styles.title}>Novo Grupo:</Text>
           <View style={styles.container}>
-            {error && <Text style={styles.error}>Título e Categoria são obrigatórios</Text>}
             <TextInput
               value={title}
               onChangeText={(text) => setTitle(text)}
@@ -72,14 +77,15 @@ export function NewGroupModal() {
             />
             <TouchableOpacity
               style={styles.addButton}
-              onPress={() => handleNewGroup()}
+              onPress={handleNewGroup}
+              disabled={disabled}
             >
               <Text style={styles.textButton}>Adicionar</Text>
             </TouchableOpacity>
           </View>
         </View>
         <TouchableWithoutFeedback
-          onPress={() => setModalVisible((prev) => !prev)}
+          onPress={toggleGroupVisible}
         >
           <View style={styles.mainPage}/>
         </TouchableWithoutFeedback>
@@ -88,7 +94,7 @@ export function NewGroupModal() {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (disabled: boolean) => StyleSheet.create({
   modal: {
     position: 'absolute',
     bottom: 0,
@@ -98,7 +104,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
     padding: 10,
-    zIndex: 15,
+    zIndex: 10,
   },
   title: {
     color: colors.text,
@@ -127,7 +133,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 10,
     paddingVertical: 5,
-    backgroundColor: colors.primary,
+    backgroundColor: disabled ? colors.inactive : colors.primary,
     borderRadius: 4,
     height: 42,
   },

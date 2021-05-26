@@ -21,7 +21,8 @@ export function Watch() {
   const {
     focusTime,
     isTimerActive,
-    startCountdown
+    startCountdown,
+    restartCountdown
   } = useContext(CountdownContext) as CountdownContextType;
 
   const { groups } = useContext(GroupContext) as GroupContextType;
@@ -44,7 +45,7 @@ export function Watch() {
               <Button
                 size={48}
                 name="play"
-                onClick={() => startCountdown()}
+                onClick={startCountdown}
               />
             )}
           </View>
@@ -61,7 +62,7 @@ export function Watch() {
       { isTimerActive && (
         <TouchableOpacity
           style={styles.actionContainer}
-          onPress={() => {}}
+          onPress={restartCountdown}
         >
           <Text style={styles.actionText}>Encerrar ciclo</Text>
         </TouchableOpacity>

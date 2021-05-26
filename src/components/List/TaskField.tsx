@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   View,
   Text,
@@ -9,14 +9,22 @@ import {
 
 import RemoveIcon from '../../../assets/RemoveIcon.png';
 
+import { GroupContext } from '../../context/Group';
+
 import colors from '../../styles/colors';
 
 export function TaskField({ task: {
+  id,
   title,
 } }: { task: Task }) {
+  const { removeTask } = useContext(GroupContext) as GroupContextType;
+
   return (
     <View style={styles.taskContainer}>
-      <TouchableOpacity style={styles.removeTask}>
+      <TouchableOpacity
+        style={styles.removeTask}
+        onPress={() => removeTask(id)}
+      >
         <Image source={RemoveIcon} style={styles.removeIcon} />
       </TouchableOpacity>
       <Text style={styles.taskTitle}>{title}</Text>
@@ -31,8 +39,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   removeTask: {
-    width: 24,
-    height: 24,
+    width: 26,
+    height: 26,
   },
   removeIcon: {
     width: '100%',
