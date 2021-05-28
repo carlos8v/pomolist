@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from 'react';
 
 const CountdownContext = createContext({});
 
-const focusTotalTime = 60 * 1;
+const focusTotalTime = 60 * 0.05;
 const restTotalTime = 60 * 1;
 
 let countdownInterval: NodeJS.Timeout;

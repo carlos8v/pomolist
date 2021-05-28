@@ -1,23 +1,25 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { View, Text, TouchableWithoutFeedback ,StyleSheet } from 'react-native';
 import Checkbox from 'expo-checkbox';
 
 import colors from '../../styles/colors';
 
+import { GroupContext } from '../../context/Group';
 import { CountdownContext } from '../../context/Countdown';
 
 export function FocusTaskField({ task: {
+  id,
   title,
   finished,
 } }: { task: Task }) {
-  const [isChecked, setIsChecked] = useState(finished);  
   const { isTimerActive } = useContext(CountdownContext) as CountdownContextType;
+  const { finishTask } = useContext(GroupContext) as GroupContextType;
   
-  const styles = getStyles(isChecked, isTimerActive);
+  const styles = getStyles(finished, isTimerActive);
 
   function handleSetFinished() {
     if (!isTimerActive) return;
-    setIsChecked(prev => !prev)
+    finishTask(id);
   }
 
   return (
@@ -25,7 +27,7 @@ export function FocusTaskField({ task: {
       <View style={styles.taskContainer}>
           <Checkbox
             disabled
-            value={isChecked}
+            value={finished}
             style={styles.taskCheckbox}
             color={colors.text}
           />

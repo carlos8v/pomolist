@@ -21,12 +21,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  image: {
-    marginBottom: 30,
-  },
+  image: { marginBottom: 30 },
   text: {
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 18,
     color: colors.text,
   }
 });

@@ -24,6 +24,7 @@ type GroupContextType = {
   removeGroup: (groupId: number) => void,
   addTask: (groupId: number, title: string) => void,
   removeTask: (taskId: number) => void,
+  finishTask: (taskId: number) => void,
   newGroupVisible: boolean,
   toggleGroupVisible: () => void,
   newTaskVisible: boolean,

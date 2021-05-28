@@ -1,7 +1,7 @@
 import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import { Home } from './pages/Home';
+import { List } from './pages/List';
 import { Watch } from './pages/Watch';
 
 const Tab = createMaterialTopTabNavigator();
@@ -18,7 +18,7 @@ export function Navigation() {
         indicatorStyle: { backgroundColor: '#01FFE1' },
       }}
     >
-      <Tab.Screen name="Lista" component={Home} />
+      <Tab.Screen name="Lista" component={List} />
       <Tab.Screen name="Relógio" component={Watch} />
     </Tab.Navigator>
   );
