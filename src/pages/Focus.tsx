@@ -15,12 +15,12 @@ import { GroupContext } from '../context/Group';
 import { FocusGroupCard } from '../components/Focus/FocusGroupCard';
 import { Button } from '../components/Button';
 
-export function StartCountdown() {
+export function Focus() {
   const {
     focusTime,
-    isTimerActive,
-    startCountdown,
-    restartCountdown
+    isFocusTime,
+    startFocusCountdown,
+    restartFocusCountdown
   } = useContext(CountdownContext) as CountdownContextType;
 
   const { groups } = useContext(GroupContext) as GroupContextType;
@@ -37,11 +37,11 @@ export function StartCountdown() {
         <Text style={styles.timeRemaing}>
           {formatTime(minutes)}:{formatTime(seconds)}
         </Text>
-        {!isTimerActive && (
+        {!isFocusTime && (
           <Button
             size={48}
             name="play"
-            onClick={startCountdown}
+            onClick={startFocusCountdown}
           />
         )}
       </View>
@@ -51,8 +51,8 @@ export function StartCountdown() {
         keyExtractor={item => item.id.toString()}
         style={styles.listContainer}
       />
-      { isTimerActive && (
-        <TouchableOpacity style={styles.actionContainer} onPress={restartCountdown}>
+      { isFocusTime && (
+        <TouchableOpacity style={styles.actionContainer} onPress={restartFocusCountdown}>
           <Text style={styles.actionText}>Encerrar ciclo</Text>
         </TouchableOpacity>
       )}

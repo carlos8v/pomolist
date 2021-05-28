@@ -2,40 +2,46 @@ import React, { createContext, useEffect, useState } from 'react';
 
 const CountdownContext = createContext({});
 
-const focusTotalTime = 60 * 0.05;
-const restTotalTime = 60 * 1;
+const focusTotalTime = 60 * 25;
+const restTotalTime = 60 * 5;
 
 let countdownInterval: NodeJS.Timeout;
 
 const CountdownProvider: React.FC = ({ children }) => {
-  const [isTimerActive, setIsTimeActive] = useState(false);
+  const [isFocusTime, setIsFocusTime] = useState(false);
   const [focusTime, setFocusTime] = useState(focusTotalTime);
-  const [restTime, setRestTime] = useState(restTotalTime);
+  const [restTime, setRestTime] = useState(0);
 
   useEffect(() => {
-    if (isTimerActive && focusTime > 0) {
+    if (isFocusTime && focusTime > 0) {
       countdownInterval = setTimeout(() => {
         setFocusTime((prev) => prev - 1);
       }, 1000);
-    } else if (isTimerActive && focusTime === 0) {
+    } else if (!isFocusTime && restTime > 0) {
+      countdownInterval = setTimeout(() => {
+        setRestTime((prev) => prev - 1);
+      },1000);
+    } else if (isFocusTime && focusTime === 0) {
       setFocusTime(focusTotalTime);
-      setIsTimeActive(false);
+      setRestTime(restTotalTime);
+      setIsFocusTime(false);
     }
-  }, [isTimerActive, focusTime]);
+  }, [isFocusTime, focusTime, restTime]);
 
-  function startCountdown() { setIsTimeActive(true) };
+  function startFocusCountdown() { setIsFocusTime(true); };
 
-  function restartCountdown() {
+  function restartFocusCountdown() {
     clearInterval(countdownInterval);
-    setIsTimeActive(false);
+    setIsFocusTime(false);
     setFocusTime(focusTotalTime);
   }
 
   const contextValue:CountdownContextType = {
+    isFocusTime,
     focusTime,
-    isTimerActive,
-    startCountdown,
-    restartCountdown
+    restTime,
+    startFocusCountdown,
+    restartFocusCountdown,
   };
 
   return (

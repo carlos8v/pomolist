@@ -12,14 +12,14 @@ export function FocusTaskField({ task: {
   title,
   finished,
 } }: { task: Task }) {
-  const { isTimerActive } = useContext(CountdownContext) as CountdownContextType;
-  const { finishTask } = useContext(GroupContext) as GroupContextType;
+  const { isFocusTime } = useContext(CountdownContext) as CountdownContextType;
+  const { toggleFinishTask } = useContext(GroupContext) as GroupContextType;
   
-  const styles = getStyles(finished, isTimerActive);
+  const styles = getStyles(finished, isFocusTime);
 
   function handleSetFinished() {
-    if (!isTimerActive) return;
-    finishTask(id);
+    if (!isFocusTime) return;
+    toggleFinishTask(id);
   }
 
   return (
@@ -37,12 +37,12 @@ export function FocusTaskField({ task: {
   );
 }
 
-const getStyles = (active: boolean, isTimerActive: boolean) => StyleSheet.create({
+const getStyles = (active: boolean, isFocusTime: boolean) => StyleSheet.create({
   taskContainer: {
     width: '100%',
     alignItems: 'center',
     flexDirection: 'row',
-    opacity: isTimerActive ? 1 : 0.5,
+    opacity: isFocusTime ? 1 : 0.5,
   },
   taskCheckbox: {
     padding: 0,

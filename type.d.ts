@@ -24,7 +24,8 @@ type GroupContextType = {
   removeGroup: (groupId: number) => void,
   addTask: (groupId: number, title: string) => void,
   removeTask: (taskId: number) => void,
-  finishTask: (taskId: number) => void,
+  toggleFinishTask: (taskId: number) => void,
+  completeTasks: () => void,
   newGroupVisible: boolean,
   toggleGroupVisible: () => void,
   newTaskVisible: boolean,
@@ -32,8 +33,9 @@ type GroupContextType = {
 }
 
 type CountdownContextType = {
+  isFocusTime: boolean,
   focusTime: number,
-  isTimerActive: boolean,
-  startCountdown: () => void,
-  restartCountdown: () => void,
+  restTime: number,
+  startFocusCountdown: () => void,
+  restartFocusCountdown: () => void,
 }
