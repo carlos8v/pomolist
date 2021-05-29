@@ -6,6 +6,9 @@ import colors from './src/styles/colors';
 
 import { CountdownProvider } from './src/context/Countdown';
 import { GroupProvider } from './src/context/Group';
+
+// import { NotificationsHandler } from './src/lib/notifications';
+
 import { Navigation } from './src/Navigation';
 
 const MainProvider: React.FC = ({ children }) => {
@@ -21,6 +24,7 @@ const MainProvider: React.FC = ({ children }) => {
 export default function App() {
   return (
     <MainProvider>
+      {/* <NotificationsHandler /> */}
       <SafeAreaView style={{ flex: 1 }}>
         <StatusBar backgroundColor={colors.header} barStyle="light-content" />
           <NavigationContainer>

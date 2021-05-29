@@ -20,7 +20,7 @@ export function Watch() {
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      {!isFocusTime && restTime !== 0
+      {!isFocusTime && restTime > 0
         ? <Rest />
         : <>{ !groups.length ? <Finished /> : <Focus /> }</>
       }

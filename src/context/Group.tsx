@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import storage from './storage';
+import storage from '../lib/storage';
 
 const GroupContext = createContext({});
 

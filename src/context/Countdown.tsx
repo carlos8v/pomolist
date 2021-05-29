@@ -1,5 +1,10 @@
 import React, { createContext, useEffect, useState } from 'react';
 
+import {
+  sendCountdownEndedNotification,
+  cancelPendindNotifications
+} from '../lib/notifications';
+
 const CountdownContext = createContext({});
 
 const focusTotalTime = 60 * 25;
@@ -28,10 +33,14 @@ const CountdownProvider: React.FC = ({ children }) => {
     }
   }, [isFocusTime, focusTime, restTime]);
 
-  function startFocusCountdown() { setIsFocusTime(true); };
+  function startFocusCountdown() {
+    setIsFocusTime(true);
+    sendCountdownEndedNotification(focusTotalTime);
+  };
 
-  function restartFocusCountdown() {
+  async function restartFocusCountdown() {
     clearInterval(countdownInterval);
+    await cancelPendindNotifications();
     setIsFocusTime(false);
     setFocusTime(focusTotalTime);
   }
